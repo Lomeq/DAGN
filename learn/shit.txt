@@ -1,0 +1,2 @@
+DEBUG:root:debug
+WARNING:root:warning
