@@ -224,7 +224,7 @@ def main():
 
     try:
         processor = processors[data_args.task_name]()  #包含logiqa，reclor...
-        label_list = processor.get_labels()  #TODO:选项数量？
+        label_list = processor.get_labels()  #模型最后需要预测的label数量
         num_labels = len(label_list)
     except KeyError:
         raise ValueError("Task not found: %s" % (data_args.task_name))

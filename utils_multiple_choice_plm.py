@@ -119,7 +119,7 @@ if is_torch_available():
 
             # Make sure only the first process in distributed training processes the dataset,
             # and the others will use the cache.
-            lock_path = cached_features_file + ".lock"
+            lock_path = cached_features_file + ".lock"  #加上.lock后缀有助于其区别于别的文件
             with FileLock(lock_path):
 
                 if os.path.exists(cached_features_file) and not overwrite_cache:
@@ -128,7 +128,7 @@ if is_torch_available():
                 else:
                     logger.info(f"Creating features from dataset file at {data_dir}")
                     label_list = processor.get_labels()
-                    if mode == Split.dev:
+                    if mode == Split.dev:   
                         if demo:
                             examples = processor.get_dev_demos(data_dir)
                         else:
