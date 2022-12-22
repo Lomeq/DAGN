@@ -314,6 +314,17 @@ def main(text, option):
     print('domain_bpe_ids（0代表不是domain word，其它代表domain word对应的从1开始计数的非全局的id）\n{}, size={}'.format(inputs["domain_bpe_ids"], len(inputs["domain_bpe_ids"])))
     print('punct_bpe_ids（1代表是标点符号）\n{}'.format(inputs["punct_bpe_ids"]))
 
+    import torch
+    flat_punct_bpe_ids=torch.tensor(inputs["punct_bpe_ids"]).long()
+    flat_argument_bpe_ids=torch.tensor(inputs["argument_bpe_ids"]).long()
+    new_punct_id = 3 + 1
+    new_punct_bpe_ids = new_punct_id * flat_punct_bpe_ids  # punct_id: 1 -> 4. for incorporating with argument_bpe_ids.
+    _flat_all_bpe_ids = flat_argument_bpe_ids + new_punct_bpe_ids  # -1:padding, 0:non, 1-3: arg, 4:punct.
+    overlapped_punct_argument_mask = (_flat_all_bpe_ids > new_punct_id).long()  #TODO:这什么意思，不应该是全false？
+    flat_all_bpe_ids = _flat_all_bpe_ids * (1 - overlapped_punct_argument_mask) + flat_argument_bpe_ids * overlapped_punct_argument_mask
+    assert flat_argument_bpe_ids.max().item() <= new_punct_id
+    print(overlapped_punct_argument_mask)
+    print(flat_all_bpe_ids)
 
 if __name__ == '__main__':
 

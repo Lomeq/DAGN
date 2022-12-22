@@ -290,7 +290,7 @@ class DAGN(BertPreTrainedModel):
             new_punct_id = self.max_rel_id + 1
             new_punct_bpe_ids = new_punct_id * flat_punct_bpe_ids  # punct_id: 1 -> 4. for incorporating with argument_bpe_ids.
             _flat_all_bpe_ids = flat_argument_bpe_ids + new_punct_bpe_ids  # -1:padding, 0:non, 1-3: arg, 4:punct.
-            overlapped_punct_argument_mask = (_flat_all_bpe_ids > new_punct_id).long()
+            overlapped_punct_argument_mask = (_flat_all_bpe_ids > new_punct_id).long()  #TODO:这什么意思，不应该是全false？
             flat_all_bpe_ids = _flat_all_bpe_ids * (1 - overlapped_punct_argument_mask) + flat_argument_bpe_ids * overlapped_punct_argument_mask
             assert flat_argument_bpe_ids.max().item() <= new_punct_id
 

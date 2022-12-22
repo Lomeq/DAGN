@@ -10,7 +10,8 @@ export GNN_VERSION=GCN
 export SAVE_DIR=dagn
 
 CUDA_VISIBLE_DEVICES=0 python3 run_multiple_choice.py \
-    --disable_tqdm \
+    --overwrite_output_dir \
+    --disable_tqdm false\
     --task_name $TASK_NAME \
     --model_type $MODEL_TYPE \
     --model_name_or_path $MODEL_DIR \
@@ -27,8 +28,8 @@ CUDA_VISIBLE_DEVICES=0 python3 run_multiple_choice.py \
     --use_gcn \
     --gcn_steps 2 \
     --max_seq_length 256 \
-    --per_device_eval_batch_size 4 \
-    --per_device_train_batch_size 4 \
+    --per_device_eval_batch_size 2 \
+    --per_device_train_batch_size 2 \
     --gradient_accumulation_steps 4 \
     --roberta_lr 5e-6 \
     --gcn_lr 5e-6 \
